@@ -19,6 +19,18 @@ $ npm test
 $ npm publish
 ```
 
+## Usage
+
+> asteroid-cli g [entity]
+
+example:
+
+```bash
+asteroid-cli g users
+```
+
+It will generate a folder inside `src/pages/users`.
+
 # License
 
 MIT - see LICENSE

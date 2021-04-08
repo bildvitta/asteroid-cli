@@ -50,7 +50,6 @@ module.exports = {
     ])
 
     for (const key in result) {
-      console.log(result[key])
       if (!result[key]) continue
 
       await generate({

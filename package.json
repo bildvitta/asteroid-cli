@@ -1,6 +1,6 @@
 {
-  "name": "asteroid-cli",
-  "version": "0.0.1",
+  "name": "@bildvitta/asteroid-cli",
+  "version": "1.0.0",
   "description": "asteroid-cli CLI",
   "private": true,
   "bin": {
@@ -21,6 +21,10 @@
     "docs",
     "bin"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "license": "MIT",
   "dependencies": {
     "gluegun": "latest"
