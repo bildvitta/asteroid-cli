@@ -12,7 +12,8 @@ module.exports = {
     } = toolbox
 
     const name = parameters.first
-    const formattedName = name.charAt(0).toUpperCase() + name.slice(1)
+    const nameSplited = name.split('-').map(currentName => currentName.charAt(0).toUpperCase() + currentName.slice(1))
+    const formattedName = nameSplited.join('')
 
     const singleName = `${formattedName}Single`
     const listName = `${formattedName}List`
