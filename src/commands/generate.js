@@ -12,8 +12,7 @@ module.exports = {
     } = toolbox
 
     const name = parameters.first
-    const nameSplited = name.split('-').map(currentName => currentName.charAt(0).toUpperCase() + currentName.slice(1))
-    const formattedName = nameSplited.join('')
+    const formattedName = formatName('PascalCase', name)
 
     const singleName = `${formattedName}Single`
     const listName = `${formattedName}List`
@@ -53,9 +52,9 @@ module.exports = {
     for (const key in result) {
       if (!result[key]) continue
 
+      // Gerar página
       await generate({
         template: `${key}.vue.ejs`,
-        target: crudPaths[key],
         props: {
           name,
           formattedName,
@@ -64,12 +63,51 @@ module.exports = {
           createName,
           formName,
           editName
-        }
+        },
+        target: crudPaths[key]
       })
     }
+
+    // Gerar rota
+    const camelCaseName = formatName('camelCase', name)
+    await generate({
+      template: 'route.js.ejs',
+      target: `${currentPath}/src/router/modules/${camelCaseName}.js`,
+      props: {
+        name,
+        formattedName,
+      }
+    })
+
+    // Gerar store
+    await generate({
+      template: 'store.js.ejs',
+      target: `${currentPath}/src/store/modules/${camelCaseName}.js`,
+      props: { name }
+    })
 
     print.debug(result)
 
     print.info(`Generated file at models/${name}-model.js`)
   }
+}
+
+function formatName (type, name) {
+  let nameSplited
+
+  if (type === 'PascalCase') {
+    nameSplited = name.split('-').map(currentName => currentName.charAt(0).toUpperCase() + currentName.slice(1))
+  }
+
+  if (type === 'camelCase') {
+    nameSplited = name.split('-')?.map((currentName, index) => {
+      if (!index) {
+        return currentName
+      }
+      
+      return currentName.charAt(0).toUpperCase() + currentName.slice(1)
+    })
+  }
+
+  return nameSplited.join('')
 }

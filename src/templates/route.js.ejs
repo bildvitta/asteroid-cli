@@ -1,0 +1,22 @@
+export default [
+  {
+    name: '<%= props.formattedName %>List',
+    path: '<%= props.name %>',
+    component: () => import('src/pages/<%= props.name %>/<%= props.formattedName %>List.vue')
+  },
+  {
+    name: '<%= props.formattedName %>Create',
+    path: '<%= props.name %>/new',
+    component: () => import('pages/activities/<%= props.formattedName %>Form.vue')
+  },
+  {
+    name: '<%= props.formattedName %>Edit',
+    path: '<%= props.name %>/:id/edit',
+    component: () => import('pages/activities/<%= props.formattedName %>Form.vue')
+  },
+  {
+    name: '<%= props.formattedName %>Single',
+    path: '<%= props.name %>/:id',
+    component: () => import('pages/<%= props.name %>/<%= props.formattedName %>Single.vue')
+  }
+]
