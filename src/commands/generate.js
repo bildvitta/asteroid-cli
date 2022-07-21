@@ -1,4 +1,4 @@
-const path = require('path')
+const { strings } = require('gluegun')
 
 module.exports = {
   name: 'generate',
@@ -12,7 +12,7 @@ module.exports = {
     } = toolbox
 
     const name = parameters.first
-    const formattedName = formatName('PascalCase', name)
+    const formattedName = strings.pascalCase(name)
 
     const singleName = `${formattedName}Single`
     const listName = `${formattedName}List`
@@ -69,7 +69,7 @@ module.exports = {
     }
 
     // Gerar rota
-    const camelCaseName = formatName('camelCase', name)
+    const camelCaseName = strings.camelCase(name)
     await generate({
       template: 'route.js.ejs',
       target: `${currentPath}/src/router/modules/${camelCaseName}.js`,
@@ -90,22 +90,4 @@ module.exports = {
 
     print.info(`Generated file at models/${name}-model.js`)
   }
-}
-
-function formatName (type, name) {
-  let nameSplited
-
-  if (type === 'PascalCase') {
-    nameSplited = name.split('-').map(currentName => currentName.charAt(0).toUpperCase() + currentName.slice(1))
-  }
-
-  if (type === 'camelCase') {
-    nameSplited = name.split('-')?.map((currentName, index) => {
-      if (!index) return currentName
-      
-      return currentName.charAt(0).toUpperCase() + currentName.slice(1)
-    })
-  }
-
-  return nameSplited.join('')
 }
