@@ -101,9 +101,7 @@ function formatName (type, name) {
 
   if (type === 'camelCase') {
     nameSplited = name.split('-')?.map((currentName, index) => {
-      if (!index) {
-        return currentName
-      }
+      if (!index) return currentName
       
       return currentName.charAt(0).toUpperCase() + currentName.slice(1)
     })
