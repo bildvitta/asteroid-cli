@@ -1,4 +1,4 @@
-const path = require('path')
+const { strings } = require('gluegun')
 
 module.exports = {
   name: 'generate',
@@ -12,7 +12,7 @@ module.exports = {
     } = toolbox
 
     const name = parameters.first
-    const formattedName = name.charAt(0).toUpperCase() + name.slice(1)
+    const formattedName = strings.pascalCase(name)
 
     const singleName = `${formattedName}Single`
     const listName = `${formattedName}List`
@@ -52,9 +52,9 @@ module.exports = {
     for (const key in result) {
       if (!result[key]) continue
 
+      // Gerar página
       await generate({
         template: `${key}.vue.ejs`,
-        target: crudPaths[key],
         props: {
           name,
           formattedName,
@@ -63,9 +63,29 @@ module.exports = {
           createName,
           formName,
           editName
-        }
+        },
+        target: crudPaths[key]
       })
     }
+
+    // Gerar rota
+    const camelCaseName = strings.camelCase(name)
+    await generate({
+      template: 'route.js.ejs',
+      target: `${currentPath}/src/router/modules/${camelCaseName}.js`,
+      props: {
+        name,
+        formattedName,
+        result
+      }
+    })
+
+    // Gerar store
+    await generate({
+      template: 'store.js.ejs',
+      target: `${currentPath}/src/store/modules/${camelCaseName}.js`,
+      props: { name }
+    })
 
     print.debug(result)
 

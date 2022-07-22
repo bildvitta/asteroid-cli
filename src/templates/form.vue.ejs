@@ -1,33 +1,29 @@
 <template>
-  <qas-form-view v-model="values" class="container spaced" entity="<%= props.name %>" :mode="$_mode" @submit-success="submitSuccess">
-    <template v-slot:header>
-      <qas-page-header :breadcrumbs="breadcrumbs" title="Titulo da pagina">
-        <settings-menu v-if="$_isEditMode" :custom-id="values.uuid" delete-label="Excluir" entity="<%= props.name %>" @delete-success="deleteSuccess" />
+  <qas-form-view v-model="values" v-model:errors="errors" v-model:fields="fields" class="container spaced" entity="<%= props.name %>" :mode="mx_mode" @submit-success="submitSuccess">
+    <template #header>
+      <qas-page-header :breadcrumbs="breadcrumbs" title="__MUDAR__NOME__">
+        <!-- TODO: Irá ter esse botão na página de formulário? definir padrão com os designers -->
+        <!-- <settings-menu v-if="$_isEditMode" :custom-id="values.uuid" delete-label="Excluir" entity="<%= props.name %>" @delete-success="deleteSuccess" /> -->
       </qas-page-header>
     </template>
-    <template v-slot="{ fields, errors }">
+    <template #default>
       <qas-form-generator v-model="values" :errors="errors" :fields="fields" />
     </template>
   </qas-form-view>
 </template>
 
 <script>
-import { form } from 'mixins'
-import { handleList } from 'helpers'
-
-import SettingsMenu from 'components/SettingsMenu'
+import { filterListByHandle, formMixin } from 'asteroid'
 
 export default {
   name: '<%= props.formName %>',
 
-  mixins: [form],
-
-  components: {
-    SettingsMenu
-  },
+  mixins: [formMixin],
 
   data () {
     return {
+      errors: {},
+      fields: {},
       values: {}
     }
   },
@@ -36,13 +32,13 @@ export default {
     breadcrumbs () {
       return [
         { label: 'Lista de __MUDAR__NOME__', route: { name: '<%= props.listName %>' } },
-        ...handleList([
+        ...filterListByHandle([
           {
-            handle: this.$_isEditMode,
+            handle: this.mx_isEditMode,
             item: { label: '__MUDAR__NOME__', route: { name: '<%= props.singleName %>', params: { id: this.values.uuid } } }
           }
         ]),
-        { label: this.$_isEditMode ? 'Editar' : 'Criar __MUDAR__NOME__' }
+        { label: this.mx_isEditMode ? 'Editar' : 'Criar __MUDAR__NOME__' }
       ]
     }
   },
