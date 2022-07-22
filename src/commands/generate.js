@@ -76,6 +76,7 @@ module.exports = {
       props: {
         name,
         formattedName,
+        result
       }
     })
 

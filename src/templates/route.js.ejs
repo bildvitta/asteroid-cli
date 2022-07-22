@@ -1,9 +1,12 @@
 export default [
+  <%_ if(props.result.list){ _%>
   {
     name: '<%= props.formattedName %>List',
     path: '<%= props.name %>',
     component: () => import('src/pages/<%= props.name %>/<%= props.formattedName %>List.vue')
   },
+  <%_ } _%>
+  <%_ if(props.result.form){ _%>
   {
     name: '<%= props.formattedName %>Create',
     path: '<%= props.name %>/new',
@@ -14,9 +17,12 @@ export default [
     path: '<%= props.name %>/:id/edit',
     component: () => import('pages/activities/<%= props.formattedName %>Form.vue')
   },
+  <%_ } _%>
+  <%_ if(props.result.single){ _%>
   {
     name: '<%= props.formattedName %>Single',
     path: '<%= props.name %>/:id',
     component: () => import('pages/<%= props.name %>/<%= props.formattedName %>Single.vue')
   }
+  <%_ } _%>
 ]
