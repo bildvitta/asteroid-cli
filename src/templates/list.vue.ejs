@@ -1,8 +1,8 @@
 <template>
-  <qas-list-view v-model:fields="fields" v-model:results="results" class="container spaced" entity="<%= props.name %>">
+  <qas-list-view v-model:fields="fields" v-model:results="results" entity="<%= props.name %>">
     <template #header>
       <qas-page-header title="Lista de __MUDAR__NOME__" :use-breadcrumbs="false">
-        <qas-btn hide-mobile-label icon="add" label="Criar nova __MUDAR__NOME__" :to="{ name: '<%= props.createName %>' }" />
+        <qas-btn hide-mobile-label icon="add" label="Criar nova __MUDAR__NOME__" padding="md" :to="{ name: '<%= props.createName %>' }" />
       </qas-page-header>
     </template>
 

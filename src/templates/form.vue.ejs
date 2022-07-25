@@ -1,5 +1,5 @@
 <template>
-  <qas-form-view v-model="values" v-model:errors="errors" v-model:fields="fields" class="container spaced" entity="<%= props.name %>" :mode="mx_mode" @submit-success="submitSuccess">
+  <qas-form-view v-model="values" v-model:errors="errors" v-model:fields="fields" entity="<%= props.name %>" :mode="mx_mode" @submit-success="submitSuccess">
     <template #header>
       <qas-page-header :breadcrumbs="breadcrumbs" title="__MUDAR__NOME__">
         <!-- TODO: Irá ter esse botão na página de formulário? definir padrão com os designers -->
