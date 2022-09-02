@@ -1,17 +1,48 @@
 <template>
-  <qas-list-view v-model:fields="fields" v-model:results="results" entity="<%= props.name %>">
+  <qas-list-view
+    v-model:fields="fields"
+    v-model:results="results"
+    entity="<%= props.name %>"
+  >
     <template #header>
-      <qas-page-header title="Lista de __MUDAR__NOME__" :use-breadcrumbs="false">
-        <qas-btn hide-mobile-label icon="add" label="Criar nova __MUDAR__NOME__" padding="md" :to="{ name: '<%= props.createName %>' }" />
+      <qas-page-header
+        title="Lista de __MUDAR__NOME__"
+        :use-breadcrumbs="false"
+      >
+        <qas-btn
+          hide-mobile-label
+          icon="add"
+          label="Criar nova __MUDAR__NOME__"
+          padding="md"
+          :to="{ name: '<%= props.createName %>' }"
+        />
       </qas-page-header>
     </template>
 
     <template #default>
-      <qas-table-generator :columns="columns" :fields="fields" :results="results">
+      <qas-table-generator
+        :columns="columns"
+        :fields="fields"
+        :results="results"
+      >
         <template #body-cell-actions="{ row }">
           <div class="flex justify-end no-wrap q-gutter-x-sm">
-            <qas-btn dense flat icon="o_visibility" rounded size="sm" :to="{ name: '<%= props.singleName %>', params: { id: row.uuid } }" />
-            <qas-btn dense flat icon="o_edit" rounded size="sm" :to="{ name: '<%= props.editName %>', params: { id: row.uuid } }" />
+            <qas-btn
+              dense
+              flat
+              icon="o_visibility"
+              rounded
+              size="sm"
+              :to="{ name: '<%= props.singleName %>', params: { id: row.uuid } }"
+            />
+            <qas-btn
+              dense
+              flat
+              icon="o_edit"
+              rounded
+              size="sm"
+              :to="{ name: '<%= props.editName %>', params: { id: row.uuid } }"
+            />
           </div>
         </template>
       </qas-table-generator>
@@ -41,7 +72,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.page-<%= props.name %>-list {}
-</style>

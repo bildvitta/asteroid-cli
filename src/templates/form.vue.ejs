@@ -1,19 +1,34 @@
 <template>
-  <qas-form-view v-model="values" v-model:errors="errors" v-model:fields="fields" entity="<%= props.name %>" :mode="mx_mode" @submit-success="submitSuccess">
+  <qas-form-view
+    v-model="values"
+    v-model:errors="errors"
+    v-model:fields="fields"
+    entity="<%= props.name %>"
+    :mode="mx_mode"
+    @submit-success="submitSuccess"
+  >
     <template #header>
-      <qas-page-header :breadcrumbs="breadcrumbs" title="__MUDAR__NOME__">
-        <!-- TODO: Irá ter esse botão na página de formulário? definir padrão com os designers -->
-        <!-- <settings-menu v-if="$_isEditMode" :custom-id="values.uuid" delete-label="Excluir" entity="<%= props.name %>" @delete-success="deleteSuccess" /> -->
-      </qas-page-header>
+      <qas-page-header
+        :breadcrumbs="breadcrumbs"
+        title="__MUDAR__NOME__"
+      />
     </template>
     <template #default>
-      <qas-form-generator v-model="values" :errors="errors" :fields="fields" />
+      <qas-form-generator
+        v-model="values"
+        :errors="errors"
+        :fields="fields"
+      />
     </template>
   </qas-form-view>
 </template>
 
 <script>
+<%_ if(props.type === 'all'){ _%>
 import { filterListByHandle, formMixin } from 'asteroid'
+<%_ } else{ _%>
+import { formMixin } from 'asteroid'
+<%_ } _%>
 
 export default {
   name: '<%= props.formName %>',
@@ -32,6 +47,7 @@ export default {
     breadcrumbs () {
       return [
         { label: 'Lista de __MUDAR__NOME__', route: { name: '<%= props.listName %>' } },
+        <%_ if(props.type === 'all'){ _%>
         ...filterListByHandle([
           {
             handle: this.mx_isEditMode,
@@ -39,6 +55,12 @@ export default {
           }
         ]),
         { label: this.mx_isEditMode ? 'Editar' : 'Criar __MUDAR__NOME__' }
+        <%_ } else if (props.type === 'edit'){ _%>
+        { label: '__MUDAR__NOME__', route: { name: '<%= props.singleName %>', params: { id: this.values.uuid } } },
+        { label: 'Editar __MUDAR__NOME__' }
+        <%_ } else { _%>
+        { label: 'Criar __MUDAR__NOME__' }
+        <%_ } _%>
       ]
     }
   },
@@ -52,15 +74,7 @@ export default {
       const id = data.metadata?.uuid || data.result?.uuid
 
       this.redirect(id)
-    },
-
-    deleteSuccess () {
-      this.$router.push({ name: '<%= props.listName %>' })
     }
   }
 }
 </script>
-
-<style lang="scss">
-.page-<%= props.name %>-form {}
-</style>
