@@ -47,17 +47,12 @@ module.exports = {
           type: 'select',
           name: 'form',
           message: 'Como deseja gerar o formulario?',
-          choices: ['all', 'create', 'replace'],
+          choices: ['all', 'create', 'replace', 'not-create'],
           initial: true
         }
       ])
 
-    const formNames = {
-      all: 'Form',
-      create: 'Create',
-      replace: 'Edit'
-    }
-    const formName = `${formattedName}${formNames[result.form]}`
+    const formName = `${formattedName}Form`
     const crudPaths = {
       list: `${currentPath}/src/pages/${name}/${formattedName}List.vue`,
       form: `${currentPath}/src/pages/${name}/${formName}.vue`,
@@ -65,9 +60,9 @@ module.exports = {
     }
 
     for (const key in result) {
-      if (!result[key]) continue
-
       const isForm = key === 'form'
+
+      if (!result[key] || (isForm && result[key] === 'not-create')) continue
 
       // Gerar página
       await generate({

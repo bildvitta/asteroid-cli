@@ -55,7 +55,7 @@ export default {
           }
         ]),
         { label: this.mx_isEditMode ? 'Editar' : 'Criar __MUDAR__NOME__' }
-        <%_ } else if (props.type === 'edit'){ _%>
+        <%_ } else if (props.type === 'replace'){ _%>
         { label: '__MUDAR__NOME__', route: { name: '<%= props.singleName %>', params: { id: this.values.uuid } } },
         { label: 'Editar __MUDAR__NOME__' }
         <%_ } else { _%>
