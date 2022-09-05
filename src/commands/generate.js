@@ -21,7 +21,7 @@ module.exports = {
     const editName = `${formattedName}Edit`
 
     const currentPath = filesystem.cwd()
-    const generateAll = await prompt.confirm('Deseja gerar o CRUD completo?')
+    const generateAll = await prompt.confirm('Deseja gerar o CRUD completo?', true)
 
     const result = generateAll ? 
       { 
