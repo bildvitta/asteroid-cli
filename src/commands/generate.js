@@ -48,7 +48,7 @@ module.exports = {
           name: 'form',
           message: 'Como deseja gerar o formulario?',
           choices: ['all', 'create', 'replace', 'not-create'],
-          initial: true
+          initial: 'all'
         }
       ])
 
@@ -83,14 +83,6 @@ module.exports = {
 
     const camelCaseName = strings.camelCase(name)
 
-    // const routeFile = toolbox.filesystem.read(`${currentPath}/src/router/routes.js`)
-    // console.log(routeFile, '<-- routeFile')
-    // console.log(`import ${camelCaseName} from './modules/${camelCaseName}'\n${routeFile}`)
-    // toolbox.filesystem.write(
-    //   `${currentPath}/src/router/routes.js`,
-    //   `import ${camelCaseName} from './modules/${camelCaseName}'\n${routeFile}`
-    // )
-
     // Gerar rota
     await generate({
       template: 'route.js.ejs',
@@ -102,13 +94,23 @@ module.exports = {
       }
     })
 
+
+    const responseStore = await prompt.ask({
+      type: 'select',
+      name: 'store',
+      message: 'Qual tipo de store você deseja?',
+      choices: ['pinia', 'vuex'],
+      initial: 'pinia'
+    })
+
     // Gerar store
     await generate({
-      template: 'store.js.ejs',
+      template: `${responseStore.store}.js.ejs`,
       target: `${currentPath}/src/store/modules/${camelCaseName}.js`,
       props: { name }
     })
 
     print.success(`Model ${name} gerado com sucesso!`)
+    print.info('Lembre-se de importar os arquivos de rota e store gerados.')
   }
 }
