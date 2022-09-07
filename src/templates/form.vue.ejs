@@ -3,7 +3,7 @@
     v-model="values"
     v-model:errors="errors"
     v-model:fields="fields"
-    entity="<%= props.name %>"
+    entity="<%= props.camelCaseName %>"
     :mode="mx_mode"
     @submit-success="submitSuccess"
   >

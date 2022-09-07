@@ -2,7 +2,7 @@
   <qas-list-view
     v-model:fields="fields"
     v-model:results="results"
-    entity="<%= props.name %>"
+    entity="<%= props.camelCaseName %>"
   >
     <template #header>
       <%_ if(props.result.form === 'Todos' || props.result.form === 'Criar'){ _%>

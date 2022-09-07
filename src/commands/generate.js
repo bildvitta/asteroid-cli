@@ -13,6 +13,7 @@ module.exports = {
     } = toolbox
 
     const name = parameters.first
+    const camelCaseName = strings.camelCase(name)
     const formattedName = strings.pascalCase(name)
     const singleName = `${formattedName}Single`
     const listName = `${formattedName}List`
@@ -79,7 +80,8 @@ module.exports = {
         createName,
         formName,
         editName,
-        result
+        result,
+        camelCaseName
       },
       crudPaths,
       generate
