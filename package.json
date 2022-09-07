@@ -2,7 +2,6 @@
   "name": "@bildvitta/asteroid-cli",
   "version": "2.0.0-beta.1",
   "description": "asteroid-cli CLI",
-  "private": true,
   "bin": {
     "asteroid-cli": "bin/asteroid-cli"
   },
