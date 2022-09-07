@@ -10,9 +10,10 @@
     <template #header>
       <qas-page-header
         :breadcrumbs="breadcrumbs"
-        title="__MUDAR__NOME__"
+        :title="title"
       >
         <qas-actions-menu
+          v-if="mx_isEditMode"
           v-bind="actionsMenuProps"
         />
       </qas-page-header>
@@ -77,6 +78,10 @@ export default {
           onSuccess: this.goToPageList
         }
       }
+    },
+
+    title () {
+      return this.mx_isEditMode ? 'Editar __MUDAR__NOME__' : 'Criar novo __MUDAR__NOME__'
     }
   },
 
@@ -90,6 +95,10 @@ export default {
       const id = data.metadata?.uuid || data.result?.uuid
 
       this.redirect(id)
+    },
+
+    goToPageList () {
+      return this.$router.push({ name: '<%= props.listName %>' })
     }
     <%_ } else { _%>
     goToPageList () {
