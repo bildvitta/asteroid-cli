@@ -11,6 +11,11 @@ Check out the documentation at https://github.com/infinitered/gluegun/tree/maste
 npm i @bildvitta/asteroid-cli -g
 ```
 
+To beta version:
+```bash
+npm i @bildvitta/asteroid-cli@beta -g
+```
+
 ## Publishing to NPM
 
 To package your CLI up for NPM, do this:
