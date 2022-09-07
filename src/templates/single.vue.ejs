@@ -1,13 +1,26 @@
 <template>
-  <qas-single-view class="container spaced" entity="<%= props.name %>">
-    <template v-slot:header="{ result }">
-      <qas-page-header :breadcrumbs="breadcrumbs" title="__MUDAR__NOME__">
-        <qas-btn hide-mobile-label icon="o_create" label="Editar __MUDAR__NOME__" :to="{ name: '<%= props.editName %>', params: { id: result.uuid } }" />
+  <qas-single-view
+    v-model:fields="fields"
+    v-model:result="result"
+    entity="<%= props.name %>"
+  >
+    <template #header>
+      <qas-page-header
+        :breadcrumbs="breadcrumbs"
+        title="__MUDAR__NOME__"
+      >
+        <qas-actions-menu
+          v-bind="actionsMenuProps"
+        />
       </qas-page-header>
     </template>
-    <template v-slot="{ fields, result }">
+    <template #default>
       <qas-box>
-        <qas-grid-generator :fields="fields" hide-empty-result :result="result" />
+        <qas-grid-generator
+          :fields="fields"
+          :result="result"
+          :use-empty-result="false"
+        />
       </qas-box>
     </template>
   </qas-single-view>
@@ -15,17 +28,47 @@
 
 <script>
 export default {
+  name: '<%= props.singleName %>',
+
+  data () {
+    return {
+      fields: {},
+      result: {}
+    }
+  },
+
   computed: {
     breadcrumbs () {
       return [
         { label: 'Lista de __MUDAR__NOME__', routeName: '<%= props.listName %>' },
         { label: '__MUDAR__NOME__' }
       ]
+    },
+
+    actionsMenuProps () {
+      return {
+        <%_ if(props.result.form === 'Todos' || props.result.form === 'Editar'){ _%>
+        list: {
+          edit: {
+            label: 'Editar __MUDAR__NOME__',
+            icon: 'o_create',
+            props: {
+              to: {
+                name: '<%= props.editName %>',
+                params: { id: this.result.uuid }
+              }
+            }
+          }
+        },
+        <%_ } _%>
+        deleteLabel: 'Excluir __MUDAR__NOME__',
+        deleteProps: {
+          entity: 'inputs',
+          customId: this.result.uuid,
+          onSuccess: () => this.$router.replace({ name: '<%= props.listName %>' })
+        }
+      }
     }
   }
 }
 </script>
-
-<style lang="scss">
-.page-<%= props.name %>-single {}
-</style>

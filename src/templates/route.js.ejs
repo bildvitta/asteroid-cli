@@ -1,0 +1,30 @@
+export default [
+  <%_ if(props.result.list){ _%>
+  {
+    name: '<%= props.formattedName %>List',
+    path: '<%= props.name %>',
+    component: () => import('src/pages/<%= props.name %>/<%= props.formattedName %>List.vue')
+  }<%_ if(!props.result.form || props.result.single){ _%>,<%_ } %>
+  <%_ } _%>
+  <%_ if(props.result.form === 'Todos' || props.result.form === 'Criar'){ _%>
+  {
+    name: '<%= props.formattedName %>Create',
+    path: '<%= props.name %>/new',
+    component: () => import('pages/<%= props.name %>/<%= props.formattedName %>Form.vue')
+  }<%_ if(props.result.form === 'Todos' || props.result.form === 'Editar' || props.result.single){ _%>,<%_ } %>
+  <%_ } _%>
+  <%_ if(props.result.form === 'Todos' || props.result.form === 'Editar'){ _%>
+  {
+    name: '<%= props.formattedName %>Edit',
+    path: '<%= props.name %>/:id/edit',
+    component: () => import('pages/<%= props.name %>/<%= props.formattedName %>Form.vue')
+  }<%_ if(props.result.single){ _%>,<%_ } %>
+  <%_ } _%>
+  <%_ if(props.result.single){ _%>
+  {
+    name: '<%= props.formattedName %>Single',
+    path: '<%= props.name %>/:id',
+    component: () => import('pages/<%= props.name %>/<%= props.formattedName %>Single.vue')
+  }
+  <%_ } _%>
+]

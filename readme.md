@@ -5,6 +5,11 @@ A CLI for asteroid-cli.
 ## Customizing your CLI
 
 Check out the documentation at https://github.com/infinitered/gluegun/tree/master/docs.
+## Quick start
+
+```bash
+npm i @bildvitta/asteroid-cli -g
+```
 
 ## Publishing to NPM
 

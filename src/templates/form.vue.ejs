@@ -1,33 +1,49 @@
 <template>
-  <qas-form-view v-model="values" class="container spaced" entity="<%= props.name %>" :mode="$_mode" @submit-success="submitSuccess">
-    <template v-slot:header>
-      <qas-page-header :breadcrumbs="breadcrumbs" title="Titulo da pagina">
-        <settings-menu v-if="$_isEditMode" :custom-id="values.uuid" delete-label="Excluir" entity="<%= props.name %>" @delete-success="deleteSuccess" />
+  <qas-form-view
+    v-model="values"
+    v-model:errors="errors"
+    v-model:fields="fields"
+    entity="<%= props.name %>"
+    :mode="mx_mode"
+    @submit-success="submitSuccess"
+  >
+    <template #header>
+      <qas-page-header
+        :breadcrumbs="breadcrumbs"
+        :title="title"
+      >
+        <qas-actions-menu
+          v-if="mx_isEditMode"
+          v-bind="actionsMenuProps"
+        />
       </qas-page-header>
     </template>
-    <template v-slot="{ fields, errors }">
-      <qas-form-generator v-model="values" :errors="errors" :fields="fields" />
+    <template #default>
+      <qas-form-generator
+        v-model="values"
+        :errors="errors"
+        :fields="fields"
+      />
     </template>
   </qas-form-view>
 </template>
 
 <script>
-import { form } from 'mixins'
-import { handleList } from 'helpers'
-
-import SettingsMenu from 'components/SettingsMenu'
+<%_ if(props.type === 'Todos'){ _%>
+import { filterListByHandle, formMixin } from 'asteroid'
+<%_ } else{ _%>
+import { formMixin } from 'asteroid'
+<%_ } _%>
 
 export default {
   name: '<%= props.formName %>',
 
-  mixins: [form],
-
-  components: {
-    SettingsMenu
-  },
+  mixins: [formMixin],
 
   data () {
     return {
+      errors: {},
+      fields: {},
       values: {}
     }
   },
@@ -36,18 +52,41 @@ export default {
     breadcrumbs () {
       return [
         { label: 'Lista de __MUDAR__NOME__', route: { name: '<%= props.listName %>' } },
-        ...handleList([
+        <%_ if(props.type === 'Todos'){ _%>
+        ...filterListByHandle([
           {
-            handle: this.$_isEditMode,
+            handle: this.mx_isEditMode,
             item: { label: '__MUDAR__NOME__', route: { name: '<%= props.singleName %>', params: { id: this.values.uuid } } }
           }
         ]),
-        { label: this.$_isEditMode ? 'Editar' : 'Criar __MUDAR__NOME__' }
+        { label: this.mx_isEditMode ? 'Editar' : 'Criar __MUDAR__NOME__' }
+        <%_ } else if (props.type === 'Editar'){ _%>
+        { label: '__MUDAR__NOME__', route: { name: '<%= props.singleName %>', params: { id: this.values.uuid } } },
+        { label: 'Editar __MUDAR__NOME__' }
+        <%_ } else { _%>
+        { label: 'Criar __MUDAR__NOME__' }
+        <%_ } _%>
       ]
+    },
+
+    actionsMenuProps () {
+      return {
+        deleteLabel: 'Excluir __MUDAR__NOME__',
+        deleteProps: {
+          entity: '<%= props.name %>',
+          customId: this.values.uuid,
+          onSuccess: this.goToPageList
+        }
+      }
+    },
+
+    title () {
+      return this.mx_isEditMode ? 'Editar __MUDAR__NOME__' : 'Criar novo __MUDAR__NOME__'
     }
   },
 
   methods: {
+    <%_ if(props.result.single){ _%>
     redirect (id) {
       return this.$router.push({ name: '<%= props.singleName %>', params: { id } })
     },
@@ -58,13 +97,14 @@ export default {
       this.redirect(id)
     },
 
-    deleteSuccess () {
-      this.$router.push({ name: '<%= props.listName %>' })
+    goToPageList () {
+      return this.$router.push({ name: '<%= props.listName %>' })
     }
+    <%_ } else { _%>
+    goToPageList () {
+      return this.$router.push({ name: '<%= props.listName %>' })
+    }
+    <%_ } _%>
   }
 }
 </script>
-
-<style lang="scss">
-.page-<%= props.name %>-form {}
-</style>
