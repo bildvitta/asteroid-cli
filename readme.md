@@ -8,7 +8,7 @@ Check out the documentation at https://github.com/infinitered/gluegun/tree/maste
 ## Quick start
 
 ```bash
-npm i @bildvitta/asteroid-cli -g
+npm i @bildvitta/asteroid-cli@beta -g
 ```
 
 ## Publishing to NPM
