@@ -51,7 +51,7 @@ export default {
         list: {
           edit: {
             label: 'Editar __MUDAR__NOME__',
-            icon: 'o_create',
+            icon: 'o_edit',
             props: {
               to: {
                 name: '<%= props.editName %>',
@@ -63,7 +63,7 @@ export default {
         <%_ } _%>
         deleteLabel: 'Excluir __MUDAR__NOME__',
         deleteProps: {
-          entity: 'inputs',
+          entity: '<%= props.name %>',
           customId: this.result.uuid,
           onSuccess: () => this.$router.replace({ name: '<%= props.listName %>' })
         }
