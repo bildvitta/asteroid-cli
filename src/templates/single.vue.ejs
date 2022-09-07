@@ -5,26 +5,32 @@
     entity="<%= props.name %>"
   >
     <template #header>
-      <!-- TODO: Validar botão de deletar onde irá ficar -->
+      <%_ if(props.result.form === 'Todos' || props.result.form === 'Editar'){ _%>
       <qas-page-header
         :breadcrumbs="breadcrumbs"
         title="__MUDAR__NOME__"
       >
         <qas-btn
-          hide-mobile-label
           icon="o_create"
           label="Editar __MUDAR__NOME__"
           padding="md"
           :to="{ name: '<%= props.editName %>', params: { id: result.uuid } }"
+          :use-label-on-small-screen="false"
         />
       </qas-page-header>
+      <%_ } else { _%>
+      <qas-page-header
+        title="Lista de __MUDAR__NOME__"
+        :breadcrumbs="breadcrumbs"
+      />
+      <%_ } _%>
     </template>
     <template #default>
       <qas-box>
         <qas-grid-generator
           :fields="fields"
-          hide-empty-result
           :result="result"
+          :use-empty-result="false"
         />
       </qas-box>
     </template>

@@ -4,16 +4,16 @@ export default [
     name: '<%= props.formattedName %>List',
     path: '<%= props.name %>',
     component: () => import('src/pages/<%= props.name %>/<%= props.formattedName %>List.vue')
-  }<%_ if(props.result.form !== 'none' || props.result.single){ _%>,<%_ } %>
+  }<%_ if(!props.result.form || props.result.single){ _%>,<%_ } %>
   <%_ } _%>
-  <%_ if(props.result.form === 'all' || props.result.form === 'create'){ _%>
+  <%_ if(props.result.form === 'Todos' || props.result.form === 'Criar'){ _%>
   {
     name: '<%= props.formattedName %>Create',
     path: '<%= props.name %>/new',
     component: () => import('pages/activities/<%= props.formattedName %>Form.vue')
-  }<%_ if(props.result.form === 'all' || props.result.form === 'replace' || props.result.single){ _%>,<%_ } %>
+  }<%_ if(props.result.form === 'Todos' || props.result.form === 'Editar' || props.result.single){ _%>,<%_ } %>
   <%_ } _%>
-  <%_ if(props.result.form === 'all' || props.result.form === 'replace'){ _%>
+  <%_ if(props.result.form === 'Todos' || props.result.form === 'Editar'){ _%>
   {
     name: '<%= props.formattedName %>Edit',
     path: '<%= props.name %>/:id/edit',

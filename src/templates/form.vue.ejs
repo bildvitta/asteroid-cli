@@ -24,7 +24,7 @@
 </template>
 
 <script>
-<%_ if(props.type === 'all'){ _%>
+<%_ if(props.type === 'Todos'){ _%>
 import { filterListByHandle, formMixin } from 'asteroid'
 <%_ } else{ _%>
 import { formMixin } from 'asteroid'
@@ -47,7 +47,7 @@ export default {
     breadcrumbs () {
       return [
         { label: 'Lista de __MUDAR__NOME__', route: { name: '<%= props.listName %>' } },
-        <%_ if(props.type === 'all'){ _%>
+        <%_ if(props.type === 'Todos'){ _%>
         ...filterListByHandle([
           {
             handle: this.mx_isEditMode,
@@ -55,7 +55,7 @@ export default {
           }
         ]),
         { label: this.mx_isEditMode ? 'Editar' : 'Criar __MUDAR__NOME__' }
-        <%_ } else if (props.type === 'replace'){ _%>
+        <%_ } else if (props.type === 'Editar'){ _%>
         { label: '__MUDAR__NOME__', route: { name: '<%= props.singleName %>', params: { id: this.values.uuid } } },
         { label: 'Editar __MUDAR__NOME__' }
         <%_ } else { _%>
@@ -66,6 +66,7 @@ export default {
   },
 
   methods: {
+    <%_ if(props.result.single){ _%>
     redirect (id) {
       return this.$router.push({ name: '<%= props.singleName %>', params: { id } })
     },
@@ -75,6 +76,11 @@ export default {
 
       this.redirect(id)
     }
+    <%_ } else { _%>
+    submitSuccess () {
+      return this.$router.push({ name: '<%= props.listName %>' })
+    }
+    <%_ } _%>
   }
 }
 </script>

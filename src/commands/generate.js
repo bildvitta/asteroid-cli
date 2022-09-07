@@ -14,7 +14,6 @@ module.exports = {
 
     const name = parameters.first
     const formattedName = strings.pascalCase(name)
-
     const singleName = `${formattedName}Single`
     const listName = `${formattedName}List`
     const createName = `${formattedName}Create`
@@ -26,36 +25,49 @@ module.exports = {
       form: `${currentPath}/src/pages/${name}/${formName}.vue`,
       single: `${currentPath}/src/pages/${name}/${formattedName}Single.vue`,
     }
-    const camelCaseName = strings.camelCase(name)
     const generateAll = await prompt.confirm('Deseja gerar o CRUD completo?', true)
-    const result = generateAll ? 
-    { 
-      list: true,
-      form: 'all',
-      single: true
-    }
-    :
-    await prompt.ask([
-      {
-        type: 'confirm',
-        name: 'list',
-        message: 'Gerar pagina de listagem?',
-        initial: true
-      },
-      {
-        type: 'confirm',
-        name: 'single',
-        message: 'Gerar pagina de visualização?',
-        initial: true
-      },
-      {
-        type: 'select',
-        name: 'form',
-        message: 'Como deseja gerar o formulario?',
-        choices: ['all', 'create', 'replace', 'not-create'],
-        initial: 'all'
+
+    let result
+    if (generateAll) {
+      result = { 
+        list: true,
+        form: 'Todos',
+        single: true
       }
-    ])
+    } else {
+      result = await prompt.ask([
+        {
+          type: 'confirm',
+          name: 'list',
+          message: 'Gerar pagina de listagem?',
+          initial: true
+        },
+        {
+          type: 'confirm',
+          name: 'single',
+          message: 'Gerar pagina de visualização?',
+          initial: true
+        },
+        {
+          type: 'confirm',
+          name: 'form',
+          message: 'Gerar página de formulário?',
+          initial: true
+        }
+      ])
+
+      if (result.form) {
+        const formChoice = await prompt.ask([{
+          type: 'select',
+          name: 'form',
+          message: 'Como deseja gerar o formulario?',
+          choices: ['Todos', 'Criar', 'Editar'],
+          initial: 'Todos'
+        }])
+
+        result.form = formChoice.form
+      }
+    }
 
     await generatePages({
       result,
@@ -67,6 +79,7 @@ module.exports = {
         createName,
         formName,
         editName,
+        result
       },
       crudPaths,
       generate
@@ -75,7 +88,7 @@ module.exports = {
     await generateRoutes({
       generate,
       currentPath,
-      camelCaseName,
+      name,
       props: {
         name,
         formattedName,
@@ -86,7 +99,6 @@ module.exports = {
     await generateStore({
       generate,
       currentPath,
-      camelCaseName,
       name,
       prompt
     })
@@ -100,7 +112,7 @@ async function generatePages ({ result, props, crudPaths, generate }) {
   for (const key in result) {
     const isForm = key === 'form'
 
-    if (!result[key] || (isForm && result[key] === 'not-create')) continue
+    if (!result[key] || (isForm && !result[key])) continue
 
     // Gerar página
     await generate({
@@ -114,15 +126,15 @@ async function generatePages ({ result, props, crudPaths, generate }) {
   }
 }
 
-async function generateRoutes ({ generate, currentPath, camelCaseName, props }) {
+async function generateRoutes ({ generate, currentPath, name, props }) {
   await generate({
     template: 'route.js.ejs',
-    target: `${currentPath}/src/router/modules/${camelCaseName}.js`,
+    target: `${currentPath}/src/router/modules/${name}.js`,
     props
   })
 }
 
-async function generateStore ({ currentPath, camelCaseName, name, prompt, generate }) {
+async function generateStore ({ currentPath, name, prompt, generate }) {
   const responseStore = await prompt.ask({
     type: 'select',
     name: 'store',
@@ -131,9 +143,11 @@ async function generateStore ({ currentPath, camelCaseName, name, prompt, genera
     initial: 'pinia'
   })
 
+  const isPinia = responseStore.store === 'pinia'
+
   await generate({
     template: `${responseStore.store}.js.ejs`,
-    target: `${currentPath}/src/store/modules/${camelCaseName}.js`,
+    target: `${currentPath}/src/${isPinia ? 'stores' : 'store'}/modules/${name}.js`,
     props: { name }
   })
 }

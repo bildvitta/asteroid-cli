@@ -5,21 +5,35 @@
     entity="<%= props.name %>"
   >
     <template #header>
+      <%_ if(props.result.form === 'Todos' || props.result.form === 'Criar'){ _%>
       <qas-page-header
         title="Lista de __MUDAR__NOME__"
         :use-breadcrumbs="false"
       >
         <qas-btn
-          hide-mobile-label
           icon="add"
           label="Criar nova __MUDAR__NOME__"
           padding="md"
           :to="{ name: '<%= props.createName %>' }"
+          :use-label-on-small-screen="false"
         />
       </qas-page-header>
+      <%_ } else { _%>
+      <qas-page-header
+        title="Lista de __MUDAR__NOME__"
+        :use-breadcrumbs="false"
+      />
+      <%_ } _%>
     </template>
 
     <template #default>
+      <%_ if(!props.result.single && props.result.form !== 'Editar' && props.result.form !== 'Todos'){ _%>
+      <qas-table-generator
+        :columns="columns"
+        :fields="fields"
+        :results="results"
+      />
+      <%_ } else { _%>
       <qas-table-generator
         :columns="columns"
         :fields="fields"
@@ -27,6 +41,7 @@
       >
         <template #body-cell-actions="{ row }">
           <div class="flex justify-end no-wrap q-gutter-x-sm">
+            <%_ if(props.result.single){ _%>
             <qas-btn
               dense
               flat
@@ -35,6 +50,8 @@
               size="sm"
               :to="{ name: '<%= props.singleName %>', params: { id: row.uuid } }"
             />
+            <%_ } _%>
+            <%_ if(props.result.form === 'Todos' || props.result.form === 'Editar'){ _%>
             <qas-btn
               dense
               flat
@@ -43,9 +60,11 @@
               size="sm"
               :to="{ name: '<%= props.editName %>', params: { id: row.uuid } }"
             />
+            <%_ } _%>
           </div>
         </template>
       </qas-table-generator>
+      <%_ } _%>
     </template>
   </qas-list-view>
 </template>
@@ -64,7 +83,7 @@ export default {
   computed: {
     columns () {
       return [
-        // TODO adicionar ou mudar os campos
+        // TODO adicionar os campos
         { align: 'right', name: 'actions' }
       ]
     }
