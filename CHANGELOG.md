@@ -11,6 +11,7 @@ Podemos ter pequenas breaking changes sem alterar o `major` version, apesar de s
 
 ### Corrigido
 - Entidades com o valor em camelCase nas páginas de list, single e form.
+- Corrigido o nome da função no vuex, de `getStoreModule` para `createStoreModule`.
 
 ## [2.0.0-beta.1] - 07-09-2022
 ### Adicionado
