@@ -10,14 +10,14 @@ export default [
   {
     name: '<%= props.formattedName %>Create',
     path: '<%= props.name %>/new',
-    component: () => import('pages/activities/<%= props.formattedName %>Form.vue')
+    component: () => import('pages/<%= props.name %>/<%= props.formattedName %>Form.vue')
   }<%_ if(props.result.form === 'Todos' || props.result.form === 'Editar' || props.result.single){ _%>,<%_ } %>
   <%_ } _%>
   <%_ if(props.result.form === 'Todos' || props.result.form === 'Editar'){ _%>
   {
     name: '<%= props.formattedName %>Edit',
     path: '<%= props.name %>/:id/edit',
-    component: () => import('pages/activities/<%= props.formattedName %>Form.vue')
+    component: () => import('pages/<%= props.name %>/<%= props.formattedName %>Form.vue')
   }<%_ if(props.result.single){ _%>,<%_ } %>
   <%_ } _%>
   <%_ if(props.result.single){ _%>

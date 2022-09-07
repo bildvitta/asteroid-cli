@@ -5,25 +5,14 @@
     entity="<%= props.name %>"
   >
     <template #header>
-      <%_ if(props.result.form === 'Todos' || props.result.form === 'Editar'){ _%>
       <qas-page-header
         :breadcrumbs="breadcrumbs"
         title="__MUDAR__NOME__"
       >
-        <qas-btn
-          icon="o_create"
-          label="Editar __MUDAR__NOME__"
-          padding="md"
-          :to="{ name: '<%= props.editName %>', params: { id: result.uuid } }"
-          :use-label-on-small-screen="false"
+        <qas-actions-menu
+          v-bind="actionsMenuProps"
         />
       </qas-page-header>
-      <%_ } else { _%>
-      <qas-page-header
-        title="Lista de __MUDAR__NOME__"
-        :breadcrumbs="breadcrumbs"
-      />
-      <%_ } _%>
     </template>
     <template #default>
       <qas-box>
@@ -54,6 +43,31 @@ export default {
         { label: 'Lista de __MUDAR__NOME__', routeName: '<%= props.listName %>' },
         { label: '__MUDAR__NOME__' }
       ]
+    },
+
+    actionsMenuProps () {
+      return {
+        <%_ if(props.result.form === 'Todos' || props.result.form === 'Editar'){ _%>
+        list: {
+          edit: {
+            label: 'Editar __MUDAR__NOME__',
+            icon: 'o_create',
+            props: {
+              to: {
+                name: '<%= props.editName %>',
+                params: { id: this.result.uuid }
+              }
+            }
+          }
+        },
+        <%_ } _%>
+        deleteLabel: 'Excluir __MUDAR__NOME__',
+        deleteProps: {
+          entity: 'inputs',
+          customId: this.result.uuid,
+          onSuccess: () => this.$router.replace({ name: '<%= props.listName %>' })
+        }
+      }
     }
   }
 }
