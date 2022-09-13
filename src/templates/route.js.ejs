@@ -3,7 +3,7 @@ export default [
   {
     name: '<%= props.formattedName %>List',
     path: '<%= props.name %>',
-    component: () => import('src/pages/<%= props.name %>/<%= props.formattedName %>List.vue')
+    component: () => import('pages/<%= props.name %>/<%= props.formattedName %>List.vue')
   }<%_ if(props.result.form || props.result.single){ _%>,<%_ } %>
   <%_ } _%>
   <%_ if(props.result.form === 'Todos' || props.result.form === 'Criar'){ _%>
