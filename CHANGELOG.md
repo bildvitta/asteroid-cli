@@ -7,6 +7,14 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Sobre os "BREAKING CHANGES"
 Podemos ter pequenas breaking changes sem alterar o `major` version, apesar de serem pequenas, podem alterar o comportamento da funcionalidade caso não seja feita uma atualização, **preste muita atenção** nas breaking changes dentro das versões quando existirem.
 
+## [2.0.0-beta.4] - 13-09-2022
+
+### Removido
+- Removido a prop `use-empty-result` que estava com o valor `false`, seguindo nosso padrão.
+
+### Corrigido
+- Corrigido o alias que estava de forma incorreta no `route.js.ejs`.
+
 ## [2.0.0-beta.3] - 08-09-2022
 
 ### Corrigido
