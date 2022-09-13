@@ -10,7 +10,7 @@ Podemos ter pequenas breaking changes sem alterar o `major` version, apesar de s
 ## [2.0.0-beta.4] - 13-09-2022
 
 ### Removido
-- Removido a props `use-empty-result` que estava com o valor `false`, não seguindo nossos padrões.
+- Removido a prop `use-empty-result` que estava com o valor `false`, seguindo nosso padrão.
 
 ### Corrigido
 - Corrigido o alias que estava de forma incorreta no `route.js.ejs`.
