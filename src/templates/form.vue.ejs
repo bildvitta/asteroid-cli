@@ -5,7 +5,11 @@
     v-model:fields="fields"
     entity="<%= props.camelCaseName %>"
     :mode="mx_mode"
+    <%_ if(props.result.single){ _%>
     @submit-success="submitSuccess"
+    <%_ } else{ _%>
+    @submit-success="goToPageList"
+    <%_ } _%>
   >
     <template #header>
       <qas-page-header
